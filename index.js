@@ -5,15 +5,12 @@ var collector = require('./collect.js');
 var AWSConfig;
 
 // OPTION 1: Configure AWS credentials through hard-coded key and secret
-// AWSConfig = {
-//     accessKeyId: '',
-//     secretAccessKey: '',
-//     sessionToken: '',
-//     region: 'us-east-1'
-// };
-
-// OPTION 2: Import an AWS config file containing credentials
-// AWSConfig = require(__dirname + '/credentials.json');
+AWSConfig = {
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    sessionToken: '',
+    region: 'us-east-1'
+};
 
 if (!AWSConfig || !AWSConfig.accessKeyId) {
     return console.log('ERROR: Invalid AWSConfig');
@@ -57,7 +54,7 @@ collector(AWSConfig, {api_calls: apiCalls, skip_regions: skipRegions}, function(
                 } else {
                     statusWord = 'UNKNOWN';
                 }
-                
+
                 console.log(plugin.category + '\t' + plugin.title + '\t' +
                             (results[r].resource || 'N/A') + '\t' +
                             (results[r].region || 'Global') + '\t\t' +
